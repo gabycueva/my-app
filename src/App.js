@@ -20,17 +20,18 @@ function App() {
     <div className="container">
       <Async promiseFn={loadAlbums, loadPictures}>
         {({ data, err, isLoading }) => {
-          if (isLoading) return "Loading..."
+          if (isLoading) return "Cargando aplicación..."
           if (err) return `Something went wrong: ${err.message}`
 
           if (data)
             return (
               <div>
                 {data.map(albums=> (
-                  <div className="row">
+                  <div className="row prev">
                     <div className="col-md-12">
                     <img src={albums.thumbnailUrl} />
                       <p className="titulo">{albums.title}</p>
+                      <button className="ver">Ver fotos</button>
                     </div>
                   </div>
                 ))}
