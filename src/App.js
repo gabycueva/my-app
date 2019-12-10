@@ -1,24 +1,43 @@
+// Let's import React, our styles and React Async
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Async from 'react-async';
 
+// We'll request user data from this API
+const loadAlbums = () =>
+  fetch("https://jsonplaceholder.typicode.com/albums")
+    .then(res => (res.ok ? res : Promise.reject(res)))
+    .then(res => res.json())
+
+const loadPictures = () =>
+  fetch("https://jsonplaceholder.typicode.com/photos")
+    .then(res => (res.ok ? res : Promise.reject(res)))
+    .then(res => res.json())
+
+// Our component
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <Async promiseFn={loadAlbums, loadPictures}>
+        {({ data, err, isLoading }) => {
+          if (isLoading) return "Loading..."
+          if (err) return `Something went wrong: ${err.message}`
+
+          if (data)
+            return (
+              <div>
+                {data.map(albums=> (
+                  <div className="row">
+                    <div className="col-md-12">
+                    <img src={albums.thumbnailUrl} />
+                      <p className="titulo">{albums.title}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )
+        }}
+      </Async>
     </div>
   );
 }
