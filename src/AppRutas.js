@@ -16,7 +16,7 @@ class Routa extends Component {
     return (
       <Router>
         <div>
-          <Route exact path="/" render={props => <Inicio {...props} />} />
+          <Route path="/" render={props => <Inicio {...props} />} />
           {/* <Route path="/:user" render={props => <Home {...props} />} /> */}
         </div>
       </Router>
